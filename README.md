@@ -29,11 +29,13 @@ Each row represents a ballot paper, where preferenced are expressed starting at 
 The following votes are considered invalid:
 
 - Multiple occurances of the same preference, for example:
+
 | Peter | Mia | Hannah | Lee |
 | ----- | --- | ------ | --- |
 | 1     | 1   |        | 3   |
 
 - A preference number which exceeds the number of candidates, for example:
+
 | Peter | Mia | Hannah | Lee |
 | ----- | --- | ------ | --- |
 | 3     | 2   | 1      | 5   |
@@ -45,6 +47,7 @@ The code has been internally documented reasonably thoroughly so if you want to 
 ## Permitted Votes
 
 Aside from the obviously valid votes, which number candidates 1 to a given preference as far as the voter may chose, votes which skip a preference are also considered valid, for example:
+
 | Peter | Mia | Hannah | Lee |
 | ----- | --- | ------ | --- |
 |       |     | 3      | 1   |
