@@ -13,7 +13,6 @@ use clap::Parser;
 
 #[derive(Parser, Debug)]
 #[clap(author, version)]
-/// Stores the command line arguments.
 struct Args {
     /// Path to the CSV containing the ballots.
     #[clap()]
