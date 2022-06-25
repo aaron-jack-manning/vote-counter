@@ -1,0 +1,14 @@
+[package]
+name = "vote-counter"
+version = "0.1.0"
+edition = "2021"
+description = "An opinionated single transferrable vote counter for the command line."
+license = "MIT OR Apache-2.0"
+authors = ["Aaron Manning"]
+repository = "https://github.com/aaron-jack-manning/vote-counter"
+
+[dependencies]
+csv = "1.1.6"
+clap = { version = "3.2.5", features = ["derive"] }
+exitcode = "1.1.2"
+colored = "2"

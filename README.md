@@ -1,58 +1,77 @@
-# Vote Counter
+# Vote Counter 
 
-This is just a program that I wrote to count instant runoff votes, according to a certain specification.
+An opinionated single transferrable vote counter for the command line.
 
-## Usage
+## Installation
 
-It's usage is as follows:
+Installation can be done via cargo by running:
 
 ```
-vote-counter <CSV_PATH> <THRESHOLD>
+cargo install vote-counter
 ```
 
-The first command line arguments is the path to the `.csv` file containing the ballot papers, and the second is the threshold required to win, where 0.5 corresponds to a simple majority.
+## Demo
+
+A sample `csv` file in the appropriate format is provided at the top level of this repository. Run:
+
+```
+vote-counter sample.csv --report
+```
+
+to count the votes from that file.
+
+## Arguments
+
+Running `vote-counter --help` will output the following:
+
+```
+USAGE:
+    vote-counter [OPTIONS] <PATH>
+
+ARGS:
+    <PATH>    Path to the CSV containing the ballots
+
+OPTIONS:
+    -h, --help                     Print help information
+        --report                   Generate report of counting
+    -t, --threshold <THRESHOLD>    Threshold to win [default: 0.5]
+    -V, --version                  Print version information
+```
+
+explaining each argument and how to use it.
 
 ## Ballot File
 
-Here is a sample ballot file:
+The ballot file should be a `csv` formatted as below:
 
-| Peter | Mia | Hannah | Lee |
-| ----- | --- | ------ | --- |
-| 1     | 2   |        | 3   |
-| 2     | 4   | 3      | 1   |
-|       |     | 1      |     |
+| Peter | Mia | Hannah | Lee | Fred | Julia |
+| ----- | --- | ------ | --- | ---- | ----- |
+|       | 2   | 1      |     |      | 3     |
+| 1     |     | 2      | 3   | 4    |       |
+| 5     | 4   | 3      | 1   | 2    | 6     |
 
 Each row represents a ballot paper, where preferenced are expressed starting at 1, and continuing until the voter no longer has a preference.
 
-## Invalid Votes
+## Validity of Votes
 
-The following votes are considered invalid:
+This program is generally permissive in the votes that are considered valid. If a ballot includes any number of non-negative preference numbers, none of which are repeating, the ballot is valid.
 
-- Multiple occurances of the same preference, for example:
+An invalid ballot occurs when the same preference is expressed twice.
 
-| Peter | Mia | Hannah | Lee |
-| ----- | --- | ------ | --- |
-| 1     | 1   |        | 3   |
+For example, the following are not valid:
 
-- A preference number which exceeds the number of candidates, for example:
+| Peter | Mia | Hannah | Lee | Fred | Julia |
+| ----- | --- | ------ | --- | ---- | ----- |
+| 1     | 1   |        | 3   |      |       |
+| 0     | 1   |        | 4   |      | 4     |
+| 2     |     | 2      |     | 1    |       |
 
-| Peter | Mia | Hannah | Lee |
-| ----- | --- | ------ | --- |
-| 3     | 2   | 1      | 5   |
+However the following are valid:
 
-To be warned about invalid ballots, run in debug mode.
+| Peter | Mia | Hannah | Lee | Fred | Julia |
+| ----- | --- | ------ | --- | ---- | ----- |
+| 0     | 1   | 2      |     |      | 3     |
+|       |     | 1      | 4   |      |       |
+| 2     |     | 5      |     |      | 1     |
 
-The code has been internally documented reasonably thoroughly so if you want to fork the repo and change the logic surrounding invalid votes I hope I have made that reasonably easy.
-
-## Permitted Votes
-
-Aside from the obviously valid votes, which number candidates 1 to a given preference as far as the voter may chose, votes which skip a preference are also considered valid, for example:
-
-| Peter | Mia | Hannah | Lee |
-| ----- | --- | ------ | --- |
-|       |     | 3      | 1   |
-
-where preferences are shuffled down such that in the above example, Hannah is considered to be the second preference.
-
-A sample ballots file called `sample.csv` is provided which includes only valid ballots.
-
+Negative numbers are simply ignored.
