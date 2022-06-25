@@ -1,6 +1,6 @@
 [package]
 name = "vote-counter"
-version = "0.1.1"
+version = "0.2.0"
 edition = "2021"
 description = "An opinionated single transferrable vote counter for the command line."
 license = "MIT OR Apache-2.0"

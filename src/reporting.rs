@@ -60,3 +60,18 @@ pub fn winner(winner : Option<usize>, candidates : &Candidates) {
         None => println!("{}", "The election was a tie".bright_blue()),
     }
 }
+
+/// Notifies the user if the threshold was adjusted.
+pub fn threshold_squash(prev_threshold : f64) {
+    if prev_threshold < 0.0 {
+        println!("{} Threshold was below the allowed range, and set to 0", "Warning:".yellow().bold())
+    }
+    else if prev_threshold > 1.0 {
+        println!("{} Threshold was above the allowed range, and set to 1", "Warning:".yellow().bold())
+    }
+}
+
+/// Displays a CSV error.
+pub fn csv_error(error : csv::Error) {
+    println!("{} {}", "CSV Error:".red().bold(), error);
+}
